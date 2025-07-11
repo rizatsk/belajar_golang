@@ -587,6 +587,165 @@ func main() {
 }
 ```
 
+### Pointer
+Di GO ketika membuat variable baru pass by variable lama itu pass by value, dimana variable yang dicopy tidak berpengaruh ketika diubah datanya.  
+Fitur untuk pass by reference jadi menggunakan memory variable yang sama. menggunakan `&` disebelum variablenya example: `&address1`
+``` go
+func main() {
+  address1 := Address{"Subang", "Jawa Barat", "Indonesia"}
+  address2 := &address1
+
+  address2.City = "Bandung"
+
+  fmt.Println(address1) // {"Bandung", "Jawa Barat", "Indonesia"}
+  fmt.Println(address2) // {"Bandung", "Jawa Barat", "Indonesia"}
+}
+```
+
+### Pointer Di Function
+Parameter di function ditambahkan `&`
+``` go
+func ChangeAddressToIndonesia(address Address) {
+  address.Country = "Indonesia"
+}
+
+func main() {
+  address := Address{"Subang", "Jawa Barat", ""}
+  ChangeAddressToIndonesia(&address)
+
+  fmt.Println(address) // {"Subang", "Jawa Barat", "Indonesia"}
+}
+```
+
+### Pointer Di Method
+Untuk dapat merubah data Man di method bisa tambahkan `*` pada type-nya.
+``` go
+type Man struct {
+  Name String
+}
+
+func (man *Man) Married() {
+  man.Name = "Mr." + man.Name
+}
+
+func main() {
+  rizat := Man("Rizat")
+  rizat.Married()
+
+  fmt.Println(rizat)
+}
+```
+
+### Asterisk Operator Atau *
+Operator `*` penggunaan dengan menambahkan di awal variable dengan `*variable`
+Agar variable yang awalnya ber pointer ke variable awal, variable awal juga ikut berubah, example :
+``` go
+func main() {
+  address1 := Address{"Subang", "Jawa Barat", "Indonesia"}
+  address2 := &address1
+
+  address2.City = "Bandung"
+  *address2 = Address{"Jakarta", "DKI Jakarta", "Indonesia"}
+
+  fmt.Println(address1) // {"Jakarta", "DKI Jakarta", "Indonesia"}
+  fmt.Println(address2) // {"Jakarta", "DKI Jakarta", "Indonesia"}
+}
+```
+
+### Operator New
+Untuk membuat pointer baru sama saja seperti penggunaan `&` dengan penggunaan `new`
+``` go
+func main() {
+  address1 := new(Address)
+  address2 := address1
+
+  address2.Country = "Bandung"
+
+  fmt.Println(address1) // &{ "Indonesia"}
+  fmt.Println(address2) // &{ "Indonesia"}
+}
+```
+
+### Package
+Folder untuk menemaptkan code di direktori folder  
+Nama package mengikuti nama foldernya
+``` go
+project/
+│
+└── main.go
+└── utils/
+    └── slice.go
+
+// slice.go
+pakcage utils
+
+func Slice() {
+  return "This is slice"
+}
+
+// main.go
+import (
+    "your_module_name/utils" // module name sesuai dengan yang ada di go.mod
+    "fmt"
+)
+
+func main() {
+  fmt.Println(utils.Slice())
+}
+```
+
+### Access Modifier
+Yaitu untuk dapat diakses dari package lain penamaan menggunakan awalan huruf besar `func Example() {}` kalau tidak ingin bisa diakses gunakan huruf kecil `func example() {}`.  
+notes*: Tidak hanya function bisa juga untuk variable, struct, interface dll.  
+
+### Package Initialization
+Yaitu untuk meninitialisasi package sebelum function di gunakan
+``` go
+var connection string
+
+func init() {
+  connection = "MYSQL"
+}
+
+func GetDatabase() string {
+  return connection // akan berisi MYSQL
+}
+```
+
+#### Blank Package Initialization
+Ketika hanya import package yang hanya Initialization-nya saja saat di import bisa menggunakan `_`
+``` go
+import {
+  fmt
+  _"your_module_name/blank_package"
+}
+```
+
+### Error
+Menggunakan package `errors` yang sudah disediakan oleh GO
+```go
+import {
+  "errors"
+}
+
+func Pembagian(nilai int, pembagi int) (int, error) {
+  if pembagi == 0 {
+    return 0, errors.New("Pembagian Dengan NOL")
+  } else {
+    return nilai / pembagi, nil
+  }
+}
+
+func main() {
+  hasil, err := Pembagian(100, 10)
+  if err == nil {
+    fmt.Println("Hasil", hasil)
+  } else {
+    fmt.Println("Error", err.Error())
+  }
+}
+```
+
 ### Rules in GO
 #### Tidak boleh menggunakan nama funtion yang sama walaupun di file yang berbeda: example
 ``` go

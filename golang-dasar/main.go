@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"golang-dasar/utils"
+)
 
 func sayHello(name string, job string) {
 	fmt.Println("Running function say hello")
@@ -84,4 +87,6 @@ func main() {
 	learnerSlice()
 	sayHello("Rizat", "Software Engineer")
 	sayHelloObject(User{ID: 1, Name: "Rizat"})
+
+	utils.TestAccess()
 }
