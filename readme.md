@@ -1,4 +1,4 @@
-# Learner GO
+# Learner GO Dasar
 Materi GO
 https://docs.google.com/presentation/d/1J0DbqyuLQVnGnkbL7bX3jL6iQc6RdXy8zQkfH8rbE0Q/edit?usp=sharing
 
@@ -20,7 +20,7 @@ go mod init nama-module
 ```
 
 ### Running GO Development
-```bash
+``` go
 go run name-file-go.go
 ```
 
@@ -82,7 +82,7 @@ job_user := "Software Engineer"
 ```
 
 Multiple declarasi variable
-```bash
+``` go
 var (
   firstName = "Rizat"
   lastName = "Sakmir"
@@ -141,7 +141,7 @@ dan hanya bisa 1 tipe data yang sama.
 example:
 ``` go
 var numbers = [3]int{1, 2, 3}
-var name_users = [2]string{'Rizat', 'Sakmir'}
+var name_users = [2]string{"Rizat", "Sakmir"}
 fmt.Println(name_users[1])
 ```
 
@@ -162,8 +162,8 @@ Potongan data array yang flexible ukuranya bisa berubah, atau dia bisa buat arra
 array := [...]int{1, 2, 3}
 slice := []int{1, 2, 3}
 
-var name_users = [3]string{'Rizat', 'Sakmir', 'Joko'}
-var slice_name_users_0,1 = name_users[0:1]
+var name_users = [3]string{"Rizat", "Sakmir", "Joko"}
+var slice_name_users_0_1 = name_users[0:1]
 var slice_name_users_1_sdt = name_users[1:]
 var slice_name_users_2_sampai_ke_depan = name_users[:2]
 var slice_name_users_0_sdt = name_users[:]
@@ -240,7 +240,7 @@ switch name  {
 ```
 
 ### For Loops
-```bash
+``` go
 counter := 1
 
 for counter <= 10 {
@@ -407,6 +407,183 @@ func getGoodBye(name string) string {
 func main() {
   goodbye := getGoodBye
   fmt.Println(goodbye("Rizat"))
+}
+```
+
+### Function As Parameter
+``` go
+func sayHelloWithFilter(name string, filter func(string) string) {
+  fmt.Println("Hello", filter(name));
+}
+
+func spamFilter(name string) string {
+  if name == "anjing" {
+    return "..."
+  } else {
+    return name
+  }
+}
+
+func main() {
+  sayHelloWithFilter("Joko anjing", spamFilter)
+}
+```
+
+#### Function dengan type declaration
+``` go
+type Filter func(string) string
+
+func sayHelloWithFilter(name string, filter Filter) {
+  fmt.Println("Hello", filter(name));
+}
+```
+
+
+### Defer
+Defer function untuk menjadwalkan function dieksekusi terakhir seperti halnya finally di javascript
+``` go
+func logging() {
+  fmt.Println("Selesai di eksekusi")
+}
+
+func main() {
+  defer logging()
+  fmt.Println("Run application")
+}
+```
+
+### Panic
+Panic function untuk menghentikan program, tapi defer akan tetap dieksekusi
+``` go
+panic("ERROR")
+```
+
+### Recover
+Recover function untuk menangkap error panic, sehingga program tetap berjalan
+``` go
+func endApp() {
+  fmt.Println("End App")
+  message := recover()
+  fmt.Println("Terjadi error", message)
+}
+
+func main() {
+  defer endApp()
+  panic("ERROR")
+}
+```
+
+### Struct
+Yaitu type data object  
+Struct mendefinisikan bentuk data dan dapat memiliki metode yang melekat padanya.
+``` go
+type Customer struct {
+  Name, Adresss string
+  Age int
+}
+
+func main() {
+  var dodo Customer
+  dodo.Name = "Dodo"
+  dodo.Adress = "Indonesia"
+  dodo.Age = 30
+
+  fmt.Println(dodo)
+}
+```
+
+#### Struct Method
+Struct method ini agar function menempel pada type struct
+``` go
+type Customer struct {
+  Name, Adresss string
+  Age int
+}
+
+func (customer Customer) sayHello(name string) {
+  fmt.Println("Hello", name, "my name is", customer.Name)
+}
+
+func main() {
+  var dodo Customer
+  dodo.Name = "Dodo"
+  dodo.Adress = "Indonesia"
+  dodo.Age = 30
+
+  fmt.Println(dodo)
+
+  customer.sayHello("Hengki")
+}
+```
+
+### Interface
+Tipe data abstrak
+``` go
+type HashName interface {
+  GetName() string
+}
+
+type Person struct {
+  Name string
+}
+
+func sayHello(value HashName) {
+  fmt.Println("Hello", value.GetName())
+}
+
+func (person Person) GetName() string {
+  return person.Name
+}
+
+func main() {
+  person := Person(Name: "Bobby")
+  sayHello(person)
+}
+```
+Untuk tipe data yang tidak memiliki tipe data yang pasti seperti panic, dan recover bisa menggunakan `any` / `interface{}`
+
+### Tipe Data Nil
+Pada golang tipe data maka secara otomatis dibuatkan default valuenya, sesuai dengan tipe data yang diberikan.
+`Nil yaitu data kosong`, tapi hanya bisa digunakan oleh beberapa tipe data saja seperti `interface, function, map, slice, pointer dan channel`.
+``` go
+func newMap(name string) map[string] string {
+  if name == "" {
+    return nil
+  } else {
+    return map[string] string {
+      "name": name
+    }
+  }
+}
+```
+
+### Type Assertions
+Untuk merubah tipe data menjadi tipe data yang diingkan.  
+biasa digunakan untuk interface type any
+``` go
+func random() interface{} {
+  return "OK"
+}
+
+func main() {
+  result := random()
+  resultString := result.(string)
+  fmt.Println(resultString)
+}
+```
+
+#### Type Assestions Dengan Switch
+``` go
+func main() {
+  result := random()
+  switch value := result.(type) {
+    case string:
+      fmt.Prinln("String", value)
+    case int:
+      fmt.Println("Int", value)
+    default:
+      fmt.Println("Unknown")
+  }
 }
 ```
 
