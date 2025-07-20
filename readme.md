@@ -33,3 +33,8 @@ Silahkan buka folder golang-dasar
 ## Golang Standart Library
 Silahkan buka folder golang-standart-library  
 🚀 https://github.com/rizatsk/belajar_golang/tree/master/golang-standart-library
+
+## Golang Modules
+Golang sudah integrasi baik dengan Git  
+untuk merilis module hanya perlu membuat Tag di Git
+jadi seperti menggunakan packages seperti NPM di nodejs
