@@ -26,6 +26,11 @@ go build
 ```
 Akan menghasilkan file dengan extention yang bisa dijalankan dari setiap OS
 
+### Add package in GO
+``` go
+go get package
+```
+
 ## Golang Dasar
 Silahkan buka folder golang-dasar  
 🚀 https://github.com/rizatsk/belajar_golang/tree/master/golang-dasar
