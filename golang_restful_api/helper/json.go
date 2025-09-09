@@ -8,7 +8,7 @@ import (
 func ReadFromRequestBody(request *http.Request, result interface{}) {
 	decoder := json.NewDecoder(request.Body)
 	err := decoder.Decode(result)
-	PanicIfError(err)
+	PanicIfError(err, request.Context())
 }
 
 func WriteToResponseBody(writer http.ResponseWriter, response interface{}) {

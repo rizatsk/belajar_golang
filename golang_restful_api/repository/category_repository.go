@@ -32,7 +32,7 @@ func (repository *CategoryRepositoryImpl) Save(context context.Context, pool_db 
 	err := pool_db.QueryRow(context, SQL,
 		category.Id, category.Name).
 		Scan(&respCategory.Id, &respCategory.Name)
-	helper.PanicIfError(err)
+	helper.PanicIfError(err, context)
 
 	return respCategory
 }
@@ -41,7 +41,7 @@ func (repository *CategoryRepositoryImpl) Update(context context.Context, pool_d
 	SQL := "UPDATE categories SET name = $2 WHERE id = $1"
 
 	_, err := pool_db.Exec(context, SQL, category.Id, category.Name)
-	helper.PanicIfError(err)
+	helper.PanicIfError(err, context)
 
 	return category
 }
@@ -50,7 +50,7 @@ func (repository *CategoryRepositoryImpl) Delete(context context.Context, pool_d
 	SQL := "DELETE FROM categories WHERE id = $1"
 
 	tag, err := pool_db.Exec(context, SQL, category_id)
-	helper.PanicIfError(err)
+	helper.PanicIfError(err, context)
 
 	return tag.RowsAffected()
 }
@@ -64,8 +64,7 @@ func (repository *CategoryRepositoryImpl) FindById(context context.Context, pool
 	if err == pgx.ErrNoRows {
 		return respCategory, errors.New("category is not found")
 	} else {
-
-		helper.PanicIfError(err)
+		helper.PanicIfError(err, context)
 	}
 
 	return respCategory, nil
@@ -75,7 +74,7 @@ func (repository *CategoryRepositoryImpl) FindAll(context context.Context, pool_
 	SQL := "SELECT * FROM categories"
 
 	rows, err := pool_db.Query(context, SQL)
-	helper.PanicIfError(err)
+	helper.PanicIfError(err, context)
 
 	defer rows.Close()
 
@@ -83,7 +82,7 @@ func (repository *CategoryRepositoryImpl) FindAll(context context.Context, pool_
 	for rows.Next() {
 		var category domain.Category
 		err := rows.Scan(&category.Id, &category.Name)
-		helper.PanicIfError(err)
+		helper.PanicIfError(err, context)
 
 		allCategories = append(allCategories, category)
 	}

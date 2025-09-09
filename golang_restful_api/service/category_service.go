@@ -36,7 +36,7 @@ func NewCategoryService(categoryRepository repository.CategoryRepository, DB *pg
 
 func (service *CategoryServiceImpl) Create(ctx context.Context, request api.CategoryCreateRequest) api.CategoryResponse {
 	err := service.Validate.Struct(request)
-	helper.PanicIfError(err)
+	helper.PanicIfError(err, ctx)
 
 	category := domain.Category{
 		Id:   helper.GenerateUuidV6(),
@@ -50,7 +50,7 @@ func (service *CategoryServiceImpl) Create(ctx context.Context, request api.Cate
 
 func (service *CategoryServiceImpl) Upate(ctx context.Context, request api.CategoryUpdateRequest) api.CategoryResponse {
 	err := service.Validate.Struct(request)
-	helper.PanicIfError(err)
+	helper.PanicIfError(err, ctx)
 
 	category := domain.Category{
 		Id:   request.Id,
@@ -66,14 +66,14 @@ func (service *CategoryServiceImpl) Delete(ctx context.Context, category_id stri
 	rowAffected := service.CategoryRepository.Delete(ctx, service.DB, category_id)
 
 	if rowAffected < 1 {
-		panic(exception.NewNotFoundError("Data is not found"))
+		panic(exception.NewNotFoundError("Data is not found", ctx))
 	}
 }
 
 func (service *CategoryServiceImpl) FindById(ctx context.Context, category_id string) api.CategoryResponse {
 	category, err := service.CategoryRepository.FindById(ctx, service.DB, category_id)
 	if err != nil {
-		panic(exception.NewNotFoundError(err.Error()))
+		panic(exception.NewNotFoundError(err.Error(), ctx))
 	}
 
 	return helper.ToCategoryResponse(category)
