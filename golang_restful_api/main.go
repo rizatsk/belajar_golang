@@ -28,5 +28,7 @@ func main() {
 
 	fmt.Println("Serve running", addr)
 	err := server.ListenAndServe()
-	helper.PanicIfError(err)
+	helper.PanicIfError(helper.PanicErrorParam{
+		Err: err,
+	})
 }

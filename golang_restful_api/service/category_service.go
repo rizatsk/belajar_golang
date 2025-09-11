@@ -36,7 +36,11 @@ func NewCategoryService(categoryRepository repository.CategoryRepository, DB *pg
 
 func (service *CategoryServiceImpl) Create(ctx context.Context, request api.CategoryCreateRequest) api.CategoryResponse {
 	err := service.Validate.Struct(request)
-	helper.PanicIfError(err, ctx)
+	helper.PanicIfError(helper.PanicErrorParam{
+		Err:     err,
+		Ctx:     ctx,
+		Message: "Error validation when create category",
+	})
 
 	category := domain.Category{
 		Id:   helper.GenerateUuidV6(),
@@ -50,7 +54,11 @@ func (service *CategoryServiceImpl) Create(ctx context.Context, request api.Cate
 
 func (service *CategoryServiceImpl) Upate(ctx context.Context, request api.CategoryUpdateRequest) api.CategoryResponse {
 	err := service.Validate.Struct(request)
-	helper.PanicIfError(err, ctx)
+	helper.PanicIfError(helper.PanicErrorParam{
+		Err:     err,
+		Ctx:     ctx,
+		Message: "Error validation when update category",
+	})
 
 	category := domain.Category{
 		Id:   request.Id,

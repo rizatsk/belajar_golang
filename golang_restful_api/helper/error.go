@@ -6,15 +6,25 @@ import (
 	"golang_restful_api/model/logger"
 )
 
-func PanicIfError(err error, ctxs ...context.Context) {
-	if err != nil {
-		if len(ctxs) > 0 && ctxs[0] != nil {
-			config.LoggerErrorWithContext(ctxs[0], logger.LoggerError{
-				Message: "Reponse error",
-				Error:   err,
+type PanicErrorParam struct {
+	Err     error
+	Message string
+	Ctx     context.Context
+}
+
+func PanicIfError(param PanicErrorParam) {
+	if param.Err != nil {
+		if param.Ctx != nil {
+			if param.Message == "" {
+				param.Message = "Response error"
+			}
+
+			config.LoggerErrorWithContext(param.Ctx, logger.LoggerError{
+				Message: param.Message,
+				Error:   param.Err,
 			})
 		}
 
-		panic(err)
+		panic(param.Err)
 	}
 }

@@ -17,7 +17,7 @@ func ErrorHandler(writer http.ResponseWriter, request *http.Request, err interfa
 		return
 	}
 
-	internalServerError(writer, err)
+	internalServerError(writer)
 }
 
 func NotFoundApiError(writer http.ResponseWriter, request *http.Request) {
@@ -73,7 +73,7 @@ func notFoundError(writer http.ResponseWriter, err interface{}) bool {
 	}
 }
 
-func internalServerError(writer http.ResponseWriter, err interface{}) {
+func internalServerError(writer http.ResponseWriter) {
 	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(http.StatusInternalServerError)
 
@@ -81,7 +81,6 @@ func internalServerError(writer http.ResponseWriter, err interface{}) {
 		Status:  "fail",
 		Message: "Internal server error",
 		Code:    "05000",
-		Error:   err,
 	}
 
 	helper.WriteToResponseBody(writer, apiResponse)
