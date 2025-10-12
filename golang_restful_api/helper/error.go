@@ -2,7 +2,6 @@ package helper
 
 import (
 	"context"
-	"golang_restful_api/config"
 	"golang_restful_api/model/logger"
 )
 
@@ -19,7 +18,7 @@ func PanicIfError(param PanicErrorParam) {
 				param.Message = "Response error"
 			}
 
-			config.LoggerErrorWithContext(param.Ctx, logger.LoggerError{
+			LoggerErrorWithContext(param.Ctx, logger.LoggerError{
 				Message: param.Message,
 				Error:   param.Err,
 			})

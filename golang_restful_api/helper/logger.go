@@ -1,4 +1,4 @@
-package config
+package helper
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// inisialisasi base logger global
+// Inisialisasi base logger global
 var baseLogger zerolog.Logger
 
 func LoggerInit() {

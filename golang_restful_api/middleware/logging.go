@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"golang_restful_api/config"
 	"golang_restful_api/helper"
 	"net/http"
 
@@ -20,7 +19,7 @@ func LoggingMiddleware(next httprouter.Handle) httprouter.Handle {
 		// generate request_id
 		reqID := helper.GenerateUuidV4()
 
-		baseLogger := config.GetBaseLogger()
+		baseLogger := helper.GetBaseLogger()
 		reqLog := baseLogger.With().
 			Str("request_id", reqID).
 			Str("method", request.Method).
@@ -30,7 +29,7 @@ func LoggingMiddleware(next httprouter.Handle) httprouter.Handle {
 		// simpan logger ke ctx
 		ctx := reqLog.WithContext(request.Context())
 
-		config.LoggerInfoWithContext(ctx, "Request API")
+		helper.LoggerInfoWithContext(ctx, "Request API")
 		next(writer, request.WithContext(ctx), param)
 	}
 }

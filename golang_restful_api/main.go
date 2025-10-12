@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"golang_restful_api/app"
-	"golang_restful_api/config"
 	"golang_restful_api/exception"
 	"golang_restful_api/helper"
 	"net/http"
@@ -14,7 +13,7 @@ func main() {
 	router := app.NewRouter(bootsrap)
 
 	// Logging
-	config.LoggerInit()
+	helper.LoggerInit()
 
 	// Handle Error
 	router.PanicHandler = exception.ErrorHandler
