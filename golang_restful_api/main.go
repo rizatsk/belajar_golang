@@ -9,6 +9,7 @@ import (
 )
 
 func main() {
+	helper.LoadEnv()
 	bootsrap := app.InitApp()
 	router := app.NewRouter(bootsrap)
 

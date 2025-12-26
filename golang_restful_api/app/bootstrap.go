@@ -2,14 +2,12 @@ package app
 
 import (
 	"context"
-	"fmt"
 	"golang_restful_api/api/v1/categories/controller"
 	"golang_restful_api/config"
 	"golang_restful_api/repository"
 	"golang_restful_api/service"
 
 	"github.com/go-playground/validator"
-	"github.com/joho/godotenv"
 )
 
 type Bootstrap struct {
@@ -17,12 +15,6 @@ type Bootstrap struct {
 }
 
 func InitApp() *Bootstrap {
-	err_load_env := godotenv.Load()
-	if err_load_env != nil {
-		fmt.Println("Fail load file .env")
-		panic(err_load_env)
-	}
-
 	context := context.Background()
 	db := config.ConnectDatabasePool(context)
 	validate := validator.New()

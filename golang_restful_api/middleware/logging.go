@@ -29,7 +29,6 @@ func LoggingMiddleware(next httprouter.Handle) httprouter.Handle {
 		// simpan logger ke ctx
 		ctx := reqLog.WithContext(request.Context())
 
-		helper.LoggerInfoWithContext(ctx, "Request API")
 		next(writer, request.WithContext(ctx), param)
 	}
 }

@@ -1,3 +1,4 @@
 /golang-dasar/golang-dasar.exe
 .env
+.env.test
 /.vs

@@ -51,6 +51,13 @@ func LoggerInfo(message string) {
 	logging(zerolog.InfoLevel, dataLog)
 }
 
+func LoggerDebug(data logger.LoggerDebug) {
+	var dataLog logger.Logger
+	dataLog.LogMessage = data.Message
+	dataLog.Data = data.Data
+	logging(zerolog.DebugLevel, dataLog)
+}
+
 func LoggerInfoWithContext(context context.Context, message string) {
 	var dataLog logger.Logger
 	dataLog.LogMessage = message
